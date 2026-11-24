@@ -1,0 +1,13 @@
+name: i70624-fail
+on:
+  pull_request:
+permissions: {}
+jobs:
+  probe:
+    name: i70624-required-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: genuinely failing real check
+        run: |
+          echo "this is the real required check and it FAILS"
+          exit 1
