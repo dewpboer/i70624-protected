@@ -1,0 +1,40 @@
+queue_rules:
+  - name: default
+    queue_conditions:
+      - base = main
+    merge_conditions:
+      - base = main
+pull_request_rules:
+  - name: i70624-auto-approve
+    conditions:
+      - base = main
+      - label = i70624-auto
+    actions:
+      review:
+        type: APPROVE
+        message: i70624 benign probe auto-approval
+  - name: i70624-merger
+    conditions:
+      - base = main
+      - label = i70624-merge
+    actions:
+      merge:
+        method: squash
+  - name: i70624-dismiss-human-approval
+    conditions:
+      - base = main
+      - label = i70624-dismiss
+      - approved-reviews-by = dewpboer
+    actions:
+      dismiss_reviews:
+        approved:
+          - dewpboer
+        changes_requested: false
+        when: always
+        message: i70624 benign probe dismissing human approval
+  - name: i70624-chain-rule
+    conditions:
+      - label = i70624-chain-note
+    actions:
+      comment:
+        message: benign i70624 attacker config chain landed
